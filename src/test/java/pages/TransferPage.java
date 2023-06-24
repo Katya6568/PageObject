@@ -41,7 +41,6 @@ public class TransferPage {
 
     public TransferPage invalidTransfer(String amount, String otherCardNumber) {
         moneyTransfer(amount, otherCardNumber);
-        //errorNotification.shouldBe(visible, Duration.ofSeconds(15));
         findErrorMessage("Указанная сумма перевода больше доступной суммы на балансе второй карты.");
         return this;
     }

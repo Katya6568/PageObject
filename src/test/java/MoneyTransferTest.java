@@ -67,7 +67,7 @@ class MoneyTransferTest {
     }
 
     @Test
-    @DisplayName("Invalid transfer from 2nd card to 1st")
+    @DisplayName("Invalid transfer amount from 2nd card to 1st")
     void balanceShouldNotBeNegativeAfterTransferFrom2To1() {
         var firstCard = DataHelper.getFirstCardInfo();
         var initialBalance1 = dashboardPage.getCardBalance(getFirstCardInfo());
@@ -79,7 +79,7 @@ class MoneyTransferTest {
     }
 
     @Test
-    @DisplayName("Invalid transfer from 1st card to 2nd")
+    @DisplayName("Invalid transfer amount from 1st card to 2nd")
     void balanceShouldNotBeNegativeAfterTransferFrom1To2() {
         var firstCard = DataHelper.getFirstCardInfo();
         var initialBalance1 = dashboardPage.getCardBalance(getFirstCardInfo());
