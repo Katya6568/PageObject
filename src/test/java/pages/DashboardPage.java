@@ -42,10 +42,6 @@ public class DashboardPage {
         return Integer.parseInt(value);
     }
 
-//    public int getCardBalance(int index) {
-//        val text = cards.get(index).getText();
-//        return extractBalance(text);
-//    }
     public int getCardBalance(DataHelper.CardInfo cardInfo) {
         var text = cards.findBy(text(cardInfo.getNumber().substring(15))).getText();
         return extractBalance(text);
