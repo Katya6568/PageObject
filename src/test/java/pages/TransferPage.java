@@ -17,11 +17,26 @@ public class TransferPage {
     private static SelenideElement errorNotification = $("[data-test-id= 'error-notification']");
     private static SelenideElement cancelButton = $("[data-test-id= 'action-cancel']");
 
+    public TransferPage() {
+        amount.shouldBe(visible);
+        from.shouldBe(visible);
+        to.shouldBe(visible);
+        transferButton.shouldBe(visible);
+        cancelButton.shouldBe(visible);
+    }
+
     public static DashboardPage validTransfer() {
         amount.setValue(DataHelper.generateValidAmount(getSecondCardInfo().getBalance()));
         from.setValue(DataHelper.getFirstCardInfo().getNumber());
         transferButton.click();
         return new DashboardPage();
+    }
+    public TransferPage invalidTransfer(){
+        amount.setValue(DataHelper.generateInvalidAmount(getSecondCardInfo().getBalance()));
+        from.setValue(DataHelper.getFirstCardInfo().getNumber());
+        transferButton.click();
+        errorNotification.shouldBe(visible);
+        return this;
     }
 
 }

@@ -47,10 +47,8 @@ public class DataHelper {
     }
 
     public static String generateInvalidAmount(int balance) {
-        Random random = new Random();
-        int amount = balance + Math.abs(random.nextInt());
-        String invalidAmount = Integer.toString(amount);
-        return invalidAmount;
+        int amount = Math.abs(balance) + new Random().nextInt(1000);
+        return Integer.toString(amount);
 
     }
 
