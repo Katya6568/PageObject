@@ -33,31 +33,27 @@ public class DataHelper {
 
     @Value
     public static class CardInfo {
-        private String number;
-
-        private int balance;
+       String number;
     }
 
     public static CardInfo getFirstCardInfo() {
-        return new CardInfo("5559 0000 0000 0001", 10000);
+        return new CardInfo("5559 0000 0000 0001");
     }
 
     public static CardInfo getSecondCardInfo() {
-        return new CardInfo("5559 0000 0000 0002", 10000);
+        return new CardInfo("5559 0000 0000 0002");
     }
 
-    public static String generateInvalidAmount(int balance) {
-        int amount = Math.abs(balance) + new Random().nextInt(1000);
-        return Integer.toString(amount);
-
+    public static int generateInvalidAmount(int balance) {
+        int amount = Math.abs(balance) + new Random().nextInt(10000);
+        return amount;
     }
 
-    public static String generateValidAmount(int balance) {
+    public static int generateValidAmount(int balance) {
         final int max = balance;
         int amount = (int) (Math.random() * ++balance);
         String validAmount = Integer.toString(amount);
-        return validAmount;
-
+        return amount;
     }
 
 

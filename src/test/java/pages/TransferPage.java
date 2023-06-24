@@ -3,40 +3,64 @@ package pages;
 import com.codeborne.selenide.SelenideElement;
 import data.DataHelper;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
+import java.time.Duration;
+
+import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
-import static data.DataHelper.getSecondCardInfo;
 
 public class TransferPage {
-    private static SelenideElement amount = $("[data-test-id= 'amount'] input");
-    private static SelenideElement from = $("[data-test-id= 'from'] input");
-    private static SelenideElement to = $("[data-test-id= 'to'] input");
-    private static SelenideElement transferButton = $("[data-test-id= 'action-transfer']");
-    private static SelenideElement errorNotification = $("[data-test-id= 'error-notification']");
-    private static SelenideElement cancelButton = $("[data-test-id= 'action-cancel']");
+    private  SelenideElement transferHead = $(byText("Пополнение карты"));
+    private  SelenideElement amountField = $("[data-test-id= 'amount'] input");
+    private  SelenideElement from = $("[data-test-id= 'from'] input");
+    private  SelenideElement to = $("[data-test-id= 'to'] input");
+    private  SelenideElement transferButton = $("[data-test-id= 'action-transfer']");
+    private  SelenideElement errorNotification = $("[data-test-id= 'error-notification']");
+    private  SelenideElement cancelButton = $("[data-test-id= 'action-cancel']");
 
     public TransferPage() {
-        amount.shouldBe(visible);
+        transferHead.shouldBe(visible);
+        amountField.shouldBe(visible);
         from.shouldBe(visible);
         to.shouldBe(visible);
         transferButton.shouldBe(visible);
         cancelButton.shouldBe(visible);
     }
 
-    public static DashboardPage validTransfer() {
-        amount.setValue(DataHelper.generateValidAmount(getSecondCardInfo().getBalance()));
-        from.setValue(DataHelper.getFirstCardInfo().getNumber());
+
+    public void moneyTransfer(String amount, String otherCardNumber) {
+        amountField.setValue(amount);
+        from.setValue(otherCardNumber);
         transferButton.click();
+    }
+
+    public DashboardPage validTransfer(String amount, String otherCardNumber) {
+        moneyTransfer(amount, otherCardNumber);
         return new DashboardPage();
     }
-    public TransferPage invalidTransfer(){
-        amount.setValue(DataHelper.generateInvalidAmount(getSecondCardInfo().getBalance()));
-        from.setValue(DataHelper.getFirstCardInfo().getNumber());
-        transferButton.click();
-        errorNotification.shouldBe(visible);
+
+    public TransferPage invalidTransfer(String amount, String otherCardNumber) {
+        moneyTransfer(amount, otherCardNumber);
+        errorNotification.shouldBe(visible, Duration.ofSeconds(15));
         return this;
     }
 
+    public DashboardPage sameCardTransfer(String cardBalance, String thisCardNumber) {
+        amountField.setValue(cardBalance);
+        from.setValue(thisCardNumber);
+        transferButton.click();
+        errorNotification.shouldBe(visible, Duration.ofSeconds(15));
+        return new DashboardPage();
+    }
+
+    public DashboardPage nullAmountTransfer(String otherCardNumber) {
+        from.setValue(otherCardNumber);
+        transferButton.click();
+        errorNotification.shouldBe(visible, Duration.ofSeconds(15));
+        return new DashboardPage();
+    }
+    public void findErrorMessage(String errorText) {
+        errorNotification.shouldHave(exactText(errorText),Duration.ofSeconds(15)).shouldBe(visible);
+    }
 }
